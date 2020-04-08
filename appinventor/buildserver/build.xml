@@ -38,6 +38,10 @@
   <property name="run.dir" location="${local.build.dir}/run" />
   <property name="run.lib.dir" location="${run.dir}/lib" />
 
+  <condition property="opt.debug.flag" value="--debug" else="">
+    <isset property="debug"/>
+  </condition>
+
   <!-- =====================================================================
        Targets
        ===================================================================== -->
@@ -199,6 +203,7 @@
       <arg value="--userName" />
       <arg value="App Inventor" />
       <arg value="--isForCompanion" />
+      <arg value="${opt.debug.flag}" />
       <arg value="--outputDir" />
       <arg value="${public.build.dir}" />
       <arg value="--dexCacheDir" />
@@ -232,6 +237,7 @@
       <arg value="--userName" />
       <arg value="App Inventor" />
       <arg value="--isForCompanion" />
+      <arg value="${opt.debug.flag}" />
       <arg value="--includeDangerousPermissions" />
       <arg value="--extensions" />
       <arg value="edu.mit.appinventor.companionextras.CompanionExtras" />
@@ -271,6 +277,7 @@
       <arg value="App Inventor" />
       <arg value="--isForCompanion" />
       <arg value="--isForEmulator" />
+      <arg value="${opt.debug.flag}" />
       <arg value="--includeDangerousPermissions" />
       <arg value="--extensions" />
       <arg value="edu.mit.appinventor.companionextras.CompanionExtras" />

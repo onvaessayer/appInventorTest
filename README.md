@@ -154,7 +154,17 @@ Before entering or scanning the QR code in the Companion, check the box labeled 
 The automated tests depend on [Phantomjs](http://phantomjs.org/). Make sure you install it and add it to your path. After that, you can run all tests by typing the following in a terminal window:
 
     $ ant tests
-    
+
+### Debugging the Companion
+
+Build the companion with debugging enabled by running:
+
+    $ ant -Ddebug=true PlayApp
+
+Install this version of the companion onto your device or in the emulator.
+
+You can then follow the instructions [Debugging the Companion with IntelliJ](https://docs.google.com/document/d/1dFPXmB5h0O34SVKU1LP5mZpshHg6yrrnbuMXosK4E90/edit#) to connect a debugger, set breakpoints, etc.
+
 ### Hot-reloading GWT code with 'Super Dev Mode'
 1. Run `ant devmode`
 2. [Run the main server](#running-the-main-server).

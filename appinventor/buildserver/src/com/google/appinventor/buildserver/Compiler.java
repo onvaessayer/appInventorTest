@@ -275,6 +275,7 @@ public final class Compiler {
   private File libsDir; // The directory that will contain any native libraries for packaging
   private String dexCacheDir;
   private boolean hasSecondDex = false; // True if classes2.dex should be added to the APK
+  private boolean debug = false;
 
   private JSONArray simpleCompsBuildInfo;
   private JSONArray extCompsBuildInfo;
@@ -937,8 +938,7 @@ public final class Compiler {
       // testing their packaged apps.  Maybe we should make that an option, somehow.
       // TODONE(jis): Turned off debuggable. No one really uses it and it represents a security
       // risk for App Inventor App end-users.
-      out.write("android:debuggable=\"false\" ");
-      // out.write("android:debuggable=\"true\" "); // DEBUGGING
+      out.write("android:debuggable=\"" + debug + "\" ");
       if (aName.equals("")) {
         out.write("android:label=\"" + projectName + "\" ");
       } else {
@@ -1127,7 +1127,7 @@ public final class Compiler {
    */
   public static boolean compile(Project project, Set<String> compTypes, Map<String, Set<String>> compBlocks,
                                 PrintStream out, PrintStream err, PrintStream userErrors,
-                                boolean isForCompanion, boolean isForEmulator,
+                                boolean debug, boolean isForCompanion, boolean isForEmulator,
                                 boolean includeDangerousPermissions, String keystoreFilePath,
                                 int childProcessRam, String dexCacheDir, String outputFileName,
                                 BuildServer.ProgressReporter reporter) throws IOException, JSONException {
@@ -1137,6 +1137,7 @@ public final class Compiler {
     Compiler compiler = new Compiler(project, compTypes, compBlocks, out, err, userErrors,
         isForCompanion, isForEmulator, includeDangerousPermissions, childProcessRam, dexCacheDir,
         reporter);
+    compiler.debug = debug;
 
     compiler.generateAssets();
     compiler.generateActivities();
