@@ -1823,7 +1823,10 @@ Blockly.Versioning.AllUpgradeMaps =
     30: "noUpgrade",
 
     // AI2: Added "replace all mappings" block
-    31: "noUpgrade"
+    31: "noUpgrade",
+
+    // AI2: Added mutators for and/or blocks
+    32: "noUpgrade"
 
   }, // End Language upgraders
 
@@ -2684,7 +2687,7 @@ Blockly.Versioning.AllUpgradeMaps =
 
     //AI2: Added PageLoaded
     8: "noUpgrade",
-      
+
     // AI2: Added BeforePageLoad event and Stop, Reload, and ClearCookies methods
     9: "noUpgrade",
 
@@ -2696,7 +2699,10 @@ Blockly.Versioning.AllUpgradeMaps =
   "YandexTranslate": {
 
     //This is initial version. Placeholder for future upgrades
-    1: "noUpgrade"
+    1: "noUpgrade",
+
+    // AI2: ApiKey property added
+    2: "noUpgrade"
 
   } // End YandexTranslate upgraders
 
