@@ -39,6 +39,7 @@ import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroid
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidSensorDistIntervalChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidSensorTimeIntervalChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidSizingChoicePropertyEditor;
+import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidTabBarPositionChoicePropertyEditior;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidTextReceivingPropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidThemeChoicePropertyEditor;
 import com.google.appinventor.client.editor.youngandroid.properties.YoungAndroidToastLengthChoicePropertyEditor;
@@ -279,6 +280,8 @@ public class PropertiesUtil {
       String type = editorType.substring(PropertyTypeConstants.PROPERTY_TYPE_COMPONENT.length() + 2);
       type = type.substring(type.lastIndexOf('.') + 1);
       return new YoungAndroidComponentSelectorPropertyEditor(editor, Collections.singleton(type));
+    } else if (editorType.equals(PropertyTypeConstants.PROPERTY_TYPE_TAB_BAR_POSITION)) {
+      return new YoungAndroidTabBarPositionChoicePropertyEditior();
     } else {
       return new TextPropertyEditor();
     }
