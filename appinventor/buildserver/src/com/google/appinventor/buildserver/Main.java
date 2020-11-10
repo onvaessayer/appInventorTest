@@ -63,6 +63,9 @@ public final class Main {
     @Option(name = "--isForEmulator",
         usage = "Exclude native libraries for emulator.")
     boolean isForEmulator = false;
+
+    @Option(name = "--debug", usage = "Enable debugging in app manifest")
+    boolean debug = false;
   }
 
   private static CommandLineOptions commandLineOptions = new CommandLineOptions();
@@ -101,6 +104,7 @@ public final class Main {
                                          zip,
                                          commandLineOptions.outputDir,
                                          commandLineOptions.outputFileName,
+                                         commandLineOptions.debug,
                                          commandLineOptions.isForCompanion,
                                          commandLineOptions.isForEmulator,
                                          commandLineOptions.includeDangerousPermissions,

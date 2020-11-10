@@ -672,7 +672,7 @@ public class BuildServer {
     // is happening, so we should be careful about that.
     outputDir.deleteOnExit();
     Result buildResult = projectBuilder.build(userName, new ZipFile(zipFile), outputDir, null,
-        false, false, false, null,
+        false, false, false, false, null,
         commandLineOptions.childProcessRamMb, commandLineOptions.dexCacheDir, reporter);
     String buildOutput = buildResult.getOutput();
     LOG.info("Build output: " + buildOutput);

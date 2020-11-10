@@ -120,8 +120,9 @@ public final class ProjectBuilder {
   }
 
   Result build(String userName, ZipFile inputZip, File outputDir, String outputFileName,
-    boolean isForCompanion, boolean isForEmulator, boolean includeDangerousPermissions, String[] extraExtensions,
-    int childProcessRam, String dexCachePath, BuildServer.ProgressReporter reporter) {
+      boolean debug, boolean isForCompanion, boolean isForEmulator,
+      boolean includeDangerousPermissions, String[] extraExtensions,
+      int childProcessRam, String dexCachePath, BuildServer.ProgressReporter reporter) {
     try {
       // Download project files into a temporary directory
       File projectRoot = createNewTempDir();
@@ -167,7 +168,7 @@ public final class ProjectBuilder {
         // Invoke YoungAndroid compiler
         boolean success =
             Compiler.compile(project, componentTypes, componentBlocks, console, console, userErrors,
-                isForCompanion, isForEmulator, includeDangerousPermissions, keyStorePath,
+                debug, isForCompanion, isForEmulator, includeDangerousPermissions, keyStorePath,
                 childProcessRam, dexCachePath, outputFileName, reporter);
         console.close();
         userErrors.close();
