@@ -15,6 +15,9 @@ import com.google.appinventor.client.explorer.project.Project;
 import com.google.appinventor.client.widgets.Toolbar;
 import com.google.appinventor.client.wizards.youngandroid.NewYoungAndroidProjectWizard;
 import com.google.appinventor.shared.rpc.RpcResult;
+import com.google.appinventor.shared.rpc.project.ProjectNode;
+import com.google.appinventor.shared.rpc.project.youngandroid.YoungAndroidComponentsFolder;
+import com.google.appinventor.shared.rpc.project.youngandroid.YoungAndroidProjectNode;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 
@@ -222,6 +225,25 @@ public class ProjectToolbar extends Toolbar {
 
   // Send to the New Gallery
   private static class SendToGalleryAction implements Command {
+
+    /**
+     * Check wether project contains any extensions or not
+     * 
+     * @param project to check on
+     * @return true or false
+     */
+    private boolean isProjectContainsExtension(Project project) {
+      YoungAndroidComponentsFolder componentsFolder = ((YoungAndroidProjectNode) project.getRootNode()).getComponentsFolder();
+  
+      for (ProjectNode node : componentsFolder.getChildren()) {
+        if (node.getName().equals("classes.jar")) {
+          return true;
+        }
+      }
+  
+      return false;
+    }
+
     @Override
     public void execute() {
       List<Project> selectedProjects =
@@ -232,24 +254,29 @@ public class ProjectToolbar extends Toolbar {
         if (!lockPublishButton) {
           lockPublishButton = true;
           Project project = selectedProjects.get(0);
-          Ode.getInstance().getProjectService().sendToGallery(project.getProjectId(),
-            new OdeAsyncCallback<RpcResult>(
-              MESSAGES.GallerySendingError()) {
-              @Override
-              public void onSuccess(RpcResult result) {
-                lockPublishButton = false;
-                if (result.getResult() == RpcResult.SUCCESS) {
-                  Window.open(result.getOutput(), "_blank", "");
-                } else {
-                  ErrorReporter.reportError(result.getError());
+          if (isProjectContainsExtension(project)) {
+            ErrorReporter.reportInfo(MESSAGES.ProjectContainsExtensions());
+          } else {
+            Ode.getInstance().getProjectService().sendToGallery(project.getProjectId(),
+              new OdeAsyncCallback<RpcResult>(
+                MESSAGES.GallerySendingError()) {
+                @Override
+                public void onSuccess(RpcResult result) {
+                  lockPublishButton = false;
+                  if (result.getResult() == RpcResult.SUCCESS) {
+                    Window.open(result.getOutput(), "_blank", "");
+                  } else {
+                    ErrorReporter.reportError(result.getError());
+                  }
+                }
+                @Override
+                public void onFailure(Throwable t) {
+                  lockPublishButton = false;
+                  super.onFailure(t);
                 }
               }
-              @Override
-              public void onFailure(Throwable t) {
-                lockPublishButton = false;
-                super.onFailure(t);
-              }
-            });
+            );
+          }
         }
       }
     }
