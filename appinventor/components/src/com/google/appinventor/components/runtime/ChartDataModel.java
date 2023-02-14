@@ -10,14 +10,21 @@ import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.google.appinventor.components.runtime.util.ChartDataSourceUtil;
 import com.google.appinventor.components.runtime.util.YailList;
 
 import gnu.mapping.Symbol;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+
+import static com.google.appinventor.components.runtime.Component.CHART_VALUE_DECIMAL;
 
 /**
  * Base class to represent Chart Data Models. The class (and subclasses)
@@ -128,6 +135,27 @@ public abstract class ChartDataModel<
     if (dataset instanceof DataSet) {
       ((DataSet<?>) dataset).setColors(colors);
     }
+  }
+
+  /**
+   *
+   * @param valueType indicates the type of values Decimal, Integer, Date
+   */
+  public void chartValueType(final int valueType){
+
+    //for rendering point labels as integers
+    dataset.setValueFormatter(new ValueFormatter() {
+      @Override
+      public String getFormattedValue(float value) {
+        if(valueType==CHART_VALUE_DECIMAL){
+          return super.getFormattedValue(value);
+        }
+          //integer type
+          return "" + ((int) (value));
+      }
+    });
+    //for rendering x-axis labels as integers
+    ((AxisChartView<?, ?, ?, ?, ?>) view).setValueType(valueType);
   }
 
   /**

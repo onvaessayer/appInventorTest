@@ -108,6 +108,7 @@ public abstract class ChartDataBase implements Component, DataSourceChangeListen
 
   private int tick = 0;
 
+  private int valueType;
   /**
    * Creates a new Chart Data component.
    */
@@ -118,7 +119,7 @@ public abstract class ChartDataBase implements Component, DataSourceChangeListen
     // Set default properties and instantiate Chart Data Model
     initChartData();
     DataSourceKey("");
-
+    ChartValueType(0);
     threadRunner = Executors.newSingleThreadExecutor();
   }
 
@@ -334,6 +335,24 @@ public abstract class ChartDataBase implements Component, DataSourceChangeListen
       }
     });
   }
+
+  @SimpleProperty
+  public int ChartValueType() {
+    return this.valueType;
+  }
+
+  /**
+   * If checked the x-axis labels and point labels are interpreted as integers
+   *
+   * @param valuetype set to true if the user desires to interpret data as integers
+   */
+  @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_CHART_VALUE_TYPE)
+  @SimpleProperty(category = PropertyCategory.APPEARANCE, userVisible = false)
+  public void ChartValueType(int valuetype){
+    this.valueType=valuetype;
+    chartDataModel.chartValueType(valuetype);
+  }
+
 
   /**
    * If checked, the first row of the spreadsheet will be used to interpret the x and y column
