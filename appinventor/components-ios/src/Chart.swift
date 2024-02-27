@@ -39,6 +39,7 @@ import DGCharts
     return []
   }
   
+  private var _initialized = false
   var _view = UIView()
   var _chartView: ChartView?
   var _type = ChartType.Line
@@ -61,6 +62,11 @@ import DGCharts
   }
 
   @objc open func Initialize() {
+    guard !_initialized else {
+      return
+    }
+
+    _initialized = true
     self.Type = self.Type
   }
 
@@ -159,43 +165,47 @@ import DGCharts
     }
   }
 
-  @objc open var l: Int32 {
+  @objc open var PieRadius: Int32 {
     get {
       return _pieRadius
     }
     set {
       _pieRadius = newValue
       if let chartView = _chartView as? PieChartView {
-        chartView.holeRadiusPercent = CGFloat(newValue) / 100.0
+        chartView.pieRadius = newValue
       }
     }
   }
 
   @objc open var `Type`: ChartType {
-      get {
-        return _type
-      }
-      set {
-        let shouldReinitialize = _chartView != nil
-        let newChartView = createChartView(for: newValue)
-        _chartView?.chart?.removeFromSuperview()
-        _type = newValue
-        _chartView = newChartView
-
-        newChartView.chart?.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(newChartView.chart!)
-        NSLayoutConstraint.activate([
-          view.topAnchor.constraint(equalTo: newChartView.chart!.topAnchor),
-          view.leadingAnchor.constraint(equalTo: newChartView.chart!.leadingAnchor),
-          view.widthAnchor.constraint(equalTo: newChartView.chart!.widthAnchor),
-          view.heightAnchor.constraint(equalTo: newChartView.chart!.heightAnchor)
-        ])
-        _view.insertSubview(newChartView.getView(), at: 0)
-
-
-        reinitializeChart()
-      }
+    get {
+      return _type
     }
+    set {
+      _type = newValue
+
+      guard _initialized else {
+        return
+      }
+
+      let newChartView = createChartView(for: newValue)
+      _chartView?.chart?.removeFromSuperview()
+      _chartView = newChartView
+
+      let chart = newChartView.getView()
+
+      chart.translatesAutoresizingMaskIntoConstraints = false
+      view.addSubview(chart)
+      NSLayoutConstraint.activate([
+        view.topAnchor.constraint(equalTo: chart.topAnchor),
+        view.leadingAnchor.constraint(equalTo: chart.leadingAnchor),
+        view.widthAnchor.constraint(equalTo: chart.widthAnchor),
+        view.heightAnchor.constraint(equalTo: chart.heightAnchor)
+      ])
+
+      reinitializeChart()
+    }
+  }
 
   @objc open var XFromZero: Bool {
     didSet {
@@ -257,8 +267,7 @@ import DGCharts
     case .Bar:
       return BarChartView(self) as ChartView
     case .Pie:
-      //return PieChartView(frame: .zero)
-      fatalError("whoops")
+      return PieChartView(self)
     default:
       fatalError("Invalid chart type")
     }

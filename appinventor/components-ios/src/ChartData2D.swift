@@ -8,7 +8,6 @@ import DGCharts
   
   override init(_ chartContainer: Chart) {
     super.init(chartContainer)
-    chartContainer.addDataComponent(self)
     dataFileColumns = [" ", " "]
     sheetColumns = [" ", " "]
     webColumns = [" ", " "]

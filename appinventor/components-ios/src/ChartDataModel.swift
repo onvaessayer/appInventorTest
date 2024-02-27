@@ -157,13 +157,13 @@ open class ChartDataModel {
   }
 
   func removeEntryFromTuple(_ tuple: YailList<AnyObject>) {
-    let entry: DGCharts.ChartDataEntry = getEntryFromTuple(tuple)
-
-    if entry != nil {
-      let index: Int32 = findEntryIndex(entry)
-      removeEntry(Int(index))
+    guard let entry = getEntryFromTuple(tuple) else {
+      // Not a valid entry
+      return
     }
 
+    let index: Int32 = findEntryIndex(entry)
+    removeEntry(Int(index))
   }
 
   func removeEntry(_ index: Int) {
@@ -173,7 +173,10 @@ open class ChartDataModel {
   }
 
   func doesEntryExist(_ tuple: YailList<AnyObject>) -> Bool {
-    let entry : DGCharts.ChartDataEntry = getEntryFromTuple(tuple)
+    guard let entry = getEntryFromTuple(tuple) else {
+      // Not a valid entry
+      return false
+    }
     let index: Int32 = findEntryIndex(entry)
     return index >= 0
   }
@@ -232,7 +235,7 @@ open class ChartDataModel {
     return criterionSatisfied
   }
 
-  func getEntryFromTuple(_ tuple: YailList<AnyObject>) -> DGCharts.ChartDataEntry {
+  func getEntryFromTuple(_ tuple: YailList<AnyObject>) -> DGCharts.ChartDataEntry? {
     fatalError("Abstract")
 
   }
