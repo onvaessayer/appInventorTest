@@ -64,37 +64,32 @@ import DGCharts
       let entries = _chartDataModel?.entries
       var highlights: Array<Int> = []
       // populate highlights with the corresponding int color to each entries
-      for index in 0 ..< entries!.count {
-        // how to access getColor() function with LineChartDataSet
-        print("index", index)
-        let lineDataSet: LineChartDataSet = _chartDataModel?.dataset as! LineChartDataSet
-        // need to convert uicolor to int to add to highlights
-        print("linedataset", lineDataSet)
-        print("linedataset colors", lineDataSet.colors)
-        print("chartdatabase", _colors)
-        var colorArray = _colors
-        print("colorarray", colorArray)
-        print("linedatasetget", lineDataSet.color(atIndex: index+1))
-        // highlights.append(Int(colorToArgb(lineDataSet.color(atIndex: index))))
-        highlights.append(Int(AIComponentKit.Color.red.int32)) // this is a test
-        print("color", lineDataSet.color(atIndex: index))
-        print("testing", colorToArgb(lineDataSet.color(atIndex: index)))
+      for _ in 0 ..< entries!.count {
+        // let lineDataSet: LineChartDataSet = _chartDataModel?.dataset as! LineChartDataSet
+        print("_colors", _colors)
+        print("type", type(of: _colors))
+        highlights = _colors as! Array<Int>
+        // is _colors = getDataSet.getColor()
       }
-
+      print("highlights", highlights)
       for dataPoint in dataPointsList {
-        print("am i in this for loop")
-        print("dataPoint", dataPoint)
-        print("type",type(of: dataPoint))
         if let dataPoint = dataPoint as? YailList<AnyObject> {
-          print("in here")
-          let dataPointIndex: Int = dataPoint[0] as! Int // anomaly detection replacement
+          print("dataPoint", dataPoint)
+          print("type dataPoint", type(of: dataPoint[0]))
+          var dataPointInt: Array<Int> = []
+          for point in dataPoint {
+            print("point", point)
+            print("typepoint", type(of: point))
+            dataPointInt.append(point as! Int)
+          }
+          let dataPointIndex: Int = dataPoint[0] as! Int  // anomaly detection replacement
           print("dataPointIndex", dataPointIndex)
           highlights[dataPointIndex - 1] = color
         }
       }
       print("did i make it here")
       print("highlights", highlights)
-      var lineDataSet: LineChartDataSet = _chartDataModel?.dataset as! LineChartDataSet
+      let lineDataSet: LineChartDataSet = _chartDataModel?.dataset as! LineChartDataSet
       var highlightsUI: Array<NSUIColor> = []
       for highlight in highlights {
         highlightsUI.append(argbToColor(Int32(highlight)))

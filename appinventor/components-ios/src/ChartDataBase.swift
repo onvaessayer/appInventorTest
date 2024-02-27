@@ -110,10 +110,6 @@ import DGCharts
     // set default values
     Color = AIComponentKit.Color.black.int32
     Label = ""
-    
-    //TODO: do i need gesture recognizers
-    //_chartDataModel?.view.chart?.gestureRecognizers =
-    //_chartDataModel?.view.chart?.gest
   }
   
   func LineType(_ type: LineType) {
