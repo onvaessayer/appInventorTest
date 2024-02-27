@@ -30,7 +30,6 @@ open class ChartDataModel {
     return YailList()
   }
   
-  // TODO: CHANGED THIS
   func setColor(_ argb: UIColor) {
     dataset?.setColor(argb)
   }

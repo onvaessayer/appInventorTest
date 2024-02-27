@@ -58,34 +58,43 @@ import DGCharts
     }
   }
   
-  func Colors() -> YailList<AnyObject> {
-    refreshChart()
-    return _colors
-  }
-  
-  func Colors(_ colors: YailList<AnyObject>) {
-    print("in colors function")
-    var resultColors: Array<Int> = []
-    for i in colors {
-      var color: NSString = "\(i)" as NSString
-      var colorValue: CLong = CLong(color.longLongValue)
-      var two: CLong = 2
-      if colorValue > Int.max {
-        colorValue = colorValue + two * CLong(Int.min)
-      }
-      print("colorvalue", colorValue)
-      resultColors.append(colorValue)
+  @objc open var Colors: YailList<AnyObject> {
+    get {
+      refreshChart()
+      return _colors
     }
-    _colors = resultColors as! YailList<AnyObject>
-    // TODO: how should i change resultColors to UICOLOR
-    _chartDataModel?.setColors((resultColors as! [UIColor]))
-    refreshChart()
+    set {
+      var resultColors: Array<Int> = []
+      for i in newValue {
+        var color: NSString = "\(i)" as NSString
+        var colorValue: CLong = CLong(color.longLongValue)
+        var two: CLong = 2
+        if colorValue > Int.max {
+          colorValue = colorValue + two * CLong(Int.min)
+        }
+        resultColors.append(colorValue as Int)
+      }
+      
+      // set _colors property to list version of resultColors
+      let resultColorsList: YailList<AnyObject> = []
+      for resultColor in resultColors{
+        resultColorsList.add(resultColor)
+      }
+      _colors = resultColorsList
+      
+      // convert resultColors to NSUI
+      var resultColorsUI: Array<NSUIColor> = []
+      for resultColor in resultColors {
+        resultColorsUI.append(argbToColor(Int32(resultColor)))
+      }
+      _chartDataModel?.dataset!.colors = resultColorsUI
+      onDataChange()
+    }
   }
-
   
   @objc open var Label: String {
     get {
-      print("get label in chartdatabase", _label) // why is this empty
+      print("get label in chartdatabase", _label) //TODO:  why is this empty
       return _label!
     }
     set {

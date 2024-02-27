@@ -56,21 +56,27 @@ import DGCharts
     return holder
   }
   
-  // Highlights data points of chocie on the Chart in the color of choice. This block expects a list of data points, each data pointis an index, value pair
+  // Highlights data points of choice on the Chart in the color of choice. This block expects a list of data points, each data pointis an index, value pair
   @objc func HighlightDataPoints(_ dataPoints: YailList<AnyObject>, _ color: Int) {
-    var dataPointsList: Array<AnyObject> = dataPoints as! Array
+    let dataPointsList: Array<AnyObject> = dataPoints as! Array
     print("dataPointsList", dataPointsList)
     if !dataPoints.isEmpty {
-      var entries = _chartDataModel?.entries
+      let entries = _chartDataModel?.entries
       var highlights: Array<Int> = []
-      // populate highlights with the corresponding int color to each entrie
+      // populate highlights with the corresponding int color to each entries
       for index in 0 ..< entries!.count {
-        // how to acces getColor() function with LineChartDataSet
+        // how to access getColor() function with LineChartDataSet
         print("index", index)
-        var lineDataSet: LineChartDataSet = _chartDataModel?.dataset as! LineChartDataSet
+        let lineDataSet: LineChartDataSet = _chartDataModel?.dataset as! LineChartDataSet
         // need to convert uicolor to int to add to highlights
         print("linedataset", lineDataSet)
-        highlights.append(Int(colorToArgb(lineDataSet.color(atIndex: index))))
+        print("linedataset colors", lineDataSet.colors)
+        print("chartdatabase", _colors)
+        var colorArray = _colors
+        print("colorarray", colorArray)
+        print("linedatasetget", lineDataSet.color(atIndex: index+1))
+        // highlights.append(Int(colorToArgb(lineDataSet.color(atIndex: index))))
+        highlights.append(Int(AIComponentKit.Color.red.int32)) // this is a test
         print("color", lineDataSet.color(atIndex: index))
         print("testing", colorToArgb(lineDataSet.color(atIndex: index)))
       }
@@ -81,12 +87,13 @@ import DGCharts
         print("type",type(of: dataPoint))
         if let dataPoint = dataPoint as? YailList<AnyObject> {
           print("in here")
-          var dataPointIndex: Int = dataPoint[0] as! Int // anomaly detection replacement
+          let dataPointIndex: Int = dataPoint[0] as! Int // anomaly detection replacement
           print("dataPointIndex", dataPointIndex)
           highlights[dataPointIndex - 1] = color
         }
       }
       print("did i make it here")
+      print("highlights", highlights)
       var lineDataSet: LineChartDataSet = _chartDataModel?.dataset as! LineChartDataSet
       var highlightsUI: Array<NSUIColor> = []
       for highlight in highlights {
