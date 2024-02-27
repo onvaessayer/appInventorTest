@@ -1,94 +1,77 @@
-//
-//  BarChartView.swift
-//  AIComponentKit
-//
-//  Created by David Kim on 2/14/24.
-//  Copyright © 2024 Massachusetts Institute of Technology. All rights reserved.
-//
+// -*- mode: swift; swift-mode:basic-offset: 2; -*-
+// Copyright © 2022 Massachusetts Institute of Technology. All rights reserved.
 
 import Foundation
 import DGCharts
 
-class BarChartView: AxisChartView {
-  // Constants for starting value and spacing for groups of bars
-  private let startXValue: Double = 0.0
-  private let groupSpace: Double = 0.08
-  private var barSpace: Double = 0.0
-  private var barWidth: Double = 0.3
+open class BarChartDataModel: Chart2DDataModel {
+  var chartDataEntry: Array<BarChartDataEntry> = []
 
-  override init(_ chartComponent: Chart) {
-    super.init(chartComponent)
-
-    chart = DGCharts.BarChartView()
-    data = DGCharts.BarChartData()
-    chart?.data = data
-
-    initializeDefaultSettings()
+  init(data: DGCharts.BarChartData, view: BarChartView) {
+    super.init(data: data, view: view)
+    let dataset = BarChartDataSet(entries: chartDataEntry, label: " ")
+    self.dataset = dataset
+    self.data.dataSets = [dataset]
+    setDefaultStylingProperties()
   }
 
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  override func getView() -> UIView {
-    return chart!
-  }
-
-  public override func createChartModel() -> ChartDataModel {
-    let model = BarChartDataModel(data: data as! BarChartData, view: self) as ChartDataModel
-
-    // Recalculate Bar Space and Width
-    self.recalculateBarSpaceAndWidth()
-
-    return model
-  }
-
-  private func recalculateBarSpaceAndWidth() {
-    let dataSetCount = chart?.data?.dataSetCount ?? 0
-
-    if dataSetCount > 1 {
-      let x = (1.0 - groupSpace) / Double(dataSetCount)
-      
-      self.barSpace = x * 0.1
-      self.barWidth = x * 0.9
-      //chart?.data?.barWidth = barWidth
+  public override func getEntryFromTuple(_ tuple: YailList<AnyObject>) -> BarChartDataEntry {
+    print(tuple)
+    guard tuple.count >= 2,
+          let rawX = tuple[0+1] as? String,
+          let rawY = tuple[1+1] as? String else {
+      // Handle error for insufficient chart entry values or type mismatch
+      // TODO: we might want to give a warning instead
+      fatalError("Error: Insufficient chart entry values or type mismatch")
     }
 
-    if dataSetCount == 2 {
-      chart!.xAxis.centerAxisLabelsEnabled = true
+    if let x = Float(rawX), let y = Float(rawY) {
+      // Floor the x value and convert to Int as the Bar Chart uses x entries as an index
+      let flooredX = Int(floor(x))
+      return BarChartDataEntry(x: Double(flooredX), y: Double(y))
+    } else {
+      // Handle number format exception
+      // TODO: we might want to give a warning instead
+      fatalError("Error: Invalid chart entry values for \(rawX), \(rawY)")
     }
   }
 
-//  override func initializeDefaultSettings() {
-//    super.initializeDefaultSettings()
-//
-//    chart.frame = self.bounds
-//    chart?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//
-//    chart!.xAxis.granularity = 1.0
-//  }
+  public override func addEntryFromTuple(_ tuple: YailList<AnyObject>) {
+    let entry = getEntryFromTuple(tuple)
 
-  func refresh(model: BarChartDataModel, entries: Array<DGCharts.ChartDataEntry>) {
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-      let dataset : ChartDataSet = model.dataset ?? BarChartDataSet()
-      dataset.replaceEntries(entries)
+    let x = Int(entry.x)
+
+    // Check for negative x value, which is invalid
+    guard x >= 0 else {
+      return
+    }
+
+    // If x is within the bounds of the entries array, replace the entry at that index
+    if x < entries.count {
+      _entries.insert(entry, at: x)
+    } else {
+      // If x is beyond the current range of entries, fill the gap with placeholder entries
+      while entries.count < x {
+        _entries.append(BarChartDataEntry(x: Double(entries.count), y: 0.0))
+      }
+      // Add the new entry at the end
+      _entries.append(entry)
+    }
+
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+      self.dataset?.replaceEntries(self._entries)
+    }
+    
+  }
+
+  public func getTupleFromEntry(_ entry: DGCharts.BarChartDataEntry) -> YailList<AnyObject> {
+    let tupleEntries: Array<Float> = [Float(floor(entry.x)), Float(entry.y)]
+    return tupleEntries as! YailList<AnyObject>
+  }
+
+  public override func setDefaultStylingProperties() {
+    if let dataset = dataset as? DGCharts.BarChartDataSet {
       dataset.drawValuesEnabled = true
-      self.chart?.data?.notifyDataChanged()
-      self.chart?.notifyDataSetChanged()
-      self.chart?.setNeedsDisplay()
     }
   }
-
-//  private func regroupBars() {
-//    let dataSetCount = chart?.data?.dataSetCount ?? 0
-//
-//    if dataSetCount > 1 {
-//      chart.groupBars(fromX: startXValue, groupSpace: groupSpace, barSpace: barSpace)
-//
-//      let maxEntries = chart?.data?.dataSets.max(by: { $0.entryCount < $1.entryCount })?.entryCount ?? 0
-//      chart!.xAxis.axisMinimum = startXValue
-//      let groupWidth = chart.data?.groupWidth(groupSpace: groupSpace, barSpace: barSpace) ?? 0
-//      chart!.xAxis.axisMaximum = startXValue + groupWidth * Double(maxEntries)
-//    }
-//  }
 }
