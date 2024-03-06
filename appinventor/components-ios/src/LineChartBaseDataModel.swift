@@ -15,24 +15,29 @@ class LineChartBaseDataModel: PointChartDataModel {
   }
   
   public override func addEntryFromTuple(_ tuple: YailList<AnyObject>) {
-    let entry: ChartDataEntry = getEntryFromTuple(tuple)
-    if entry != nil { // TODO: how to compare it to nil
-      // TODO: DO I NEED TO DO THE BINARY SEARCH
-      // var index: Int = entries.firstIndex(of: entry)!
-      var index: Int = binarySearch(entry, entries) // I made this, must check
-      if index < 0 {
-        index = -index - 1
-      } else {
-        let entryCount: Int = entries.count
-        
-        while index < entryCount && entries[index].x == entry.x {
-          index += 1
-        }
+    guard let entry = getEntryFromTuple(tuple) else {
+      // Not a valid entry
+      return
+    }
+    // Assuming a correctly implemented binarySearch function that returns the index
+    // where the entry should be inserted or the negative index - 1 if not found.
+    var index = binarySearch(entry, entries)
+    if index < 0 {
+      index = -(index + 1)
+    } else {
+      let entryCount = entries.count
+      while index < entryCount && entries[index].x == entry.x  {
+        index += 1
       }
-      _entries.insert(entry, at: index)
-      DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-        self.dataset?.replaceEntries(self._entries)
-      }
+    }
+
+    // Insert the entry into the entries array.
+    _entries.insert(entry, at: index)
+
+    // Assuming you're updating some dataset that needs to be replaced entirely.
+    // Performing UI updates asynchronously on the main thread.
+    DispatchQueue.main.async {
+      self.dataset?.replaceEntries(self._entries)
     }
   }
   

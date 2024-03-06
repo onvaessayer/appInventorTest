@@ -55,7 +55,6 @@ open class BarChartDataModel: Chart2DDataModel {
           let rawX = tuple[0+1] as? String,
           let rawY = tuple[1+1] as? String else {
       // Handle error for insufficient chart entry values or type mismatch
-      // TODO: we might want to give a warning instead
       return nil
     }
 
@@ -65,7 +64,6 @@ open class BarChartDataModel: Chart2DDataModel {
       return BarChartDataEntry(x: Double(flooredX), y: Double(y))
     } else {
       // Handle number format exception
-      // TODO: we might want to give a warning instead
       return nil
     }
   }
