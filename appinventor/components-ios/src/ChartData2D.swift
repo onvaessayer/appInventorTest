@@ -61,14 +61,20 @@ import DGCharts
     print("dataPointsList", dataPointsList)
     if !dataPoints.isEmpty {
       let entries = _chartDataModel?.entries
-      var highlights: Array<Int> = []
-      // populate highlights with the corresponding int color to each entries
-      for _ in 0 ..< entries!.count {
-        // let lineDataSet: LineChartDataSet = _chartDataModel?.dataset as! LineChartDataSet
-        print("_colors", _colors)
-        print("type", type(of: _colors))
-        highlights = _colors as! Array<Int>
-        // is _colors = getDataSet.getColor()
+      print("entries", entries)
+      print("entries count", entries?.count)
+      
+      // convert _colors to Int
+      var colorsInt: Array<Int> = []
+      for color in _colors {
+        colorsInt.append(color as! Int)
+      }
+      
+      var highlights: Array<Int> = [Int](repeating: 0, count: entries!.count)
+      // if any colors are present, add them to highlights
+      for index in colorsInt.indices {
+        highlights[index] = colorsInt[index]
+        print("highlights[index]", highlights[index])
       }
       print("highlights", highlights)
       for dataPoint in dataPointsList {
@@ -77,23 +83,21 @@ import DGCharts
           print("type dataPoint", type(of: dataPoint[0]))
           var dataPointInt: Array<Int> = []
           for point in dataPoint {
-            print("point", point)
-            print("typepoint", type(of: point))
             dataPointInt.append(point as! Int)
           }
-          let dataPointIndex: Int = dataPoint[0] as! Int  // anomaly detection replacement
+          let dataPointIndex: Int = dataPointInt[0]  // anomaly detection replacement
           print("dataPointIndex", dataPointIndex)
-          highlights[dataPointIndex - 1] = color
+          print("dataPointIndex-1", dataPointIndex-1)
+          print("dataPointIndextype", type(of: dataPointIndex))
+          highlights[dataPointIndex - 1] = color // TODO: WHY IS THIS ALWAYS OUT OF RANGE?
+          print(highlights[dataPointIndex - 1])
         }
       }
-      print("did i make it here")
-      print("highlights", highlights)
       let lineDataSet: LineChartDataSet = _chartDataModel?.dataset as! LineChartDataSet
       var highlightsUI: Array<NSUIColor> = []
       for highlight in highlights {
         highlightsUI.append(argbToColor(Int32(highlight)))
       }
-      print("highlightsUI", highlightsUI)
       lineDataSet.circleColors = highlightsUI
       onDataChange()
     }
