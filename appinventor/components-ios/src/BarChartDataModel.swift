@@ -5,39 +5,25 @@ import Foundation
 import DGCharts
 
 open class BarChartDataModel: Chart2DDataModel {
-  var chartDataEntry: Array<BarChartDataEntry> = []
+  private var chartDataEntry: Array<BarChartDataEntry> = []
+  private var legendEntries = [LegendEntry]()
 
   init(data: DGCharts.BarChartData, view: BarChartView) {
     super.init(data: data, view: view)
+    
     let dataset = BarChartDataSet(entries: chartDataEntry, label: " ")
     self.dataset = dataset
     self.data.dataSets = [dataset]
     setDefaultStylingProperties()
   }
 
-  public override func getEntryFromTuple(_ tuple: YailList<AnyObject>) -> BarChartDataEntry {
-    print(tuple)
-    guard tuple.count >= 2,
-          let rawX = tuple[0+1] as? String,
-          let rawY = tuple[1+1] as? String else {
-      // Handle error for insufficient chart entry values or type mismatch
-      // TODO: we might want to give a warning instead
-      fatalError("Error: Insufficient chart entry values or type mismatch")
-    }
-
-    if let x = Float(rawX), let y = Float(rawY) {
-      // Floor the x value and convert to Int as the Bar Chart uses x entries as an index
-      let flooredX = Int(floor(x))
-      return BarChartDataEntry(x: Double(flooredX), y: Double(y))
-    } else {
-      // Handle number format exception
-      // TODO: we might want to give a warning instead
-      fatalError("Error: Invalid chart entry values for \(rawX), \(rawY)")
-    }
-  }
-
   public override func addEntryFromTuple(_ tuple: YailList<AnyObject>) {
-    let entry = getEntryFromTuple(tuple)
+    //let entry = getEntryFromTuple(tuple)
+
+    guard let entry = getEntryFromTuple(tuple) else {
+      // Not a valid entry
+      return
+    }
 
     let x = Int(entry.x)
 
@@ -61,8 +47,62 @@ open class BarChartDataModel: Chart2DDataModel {
     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
       self.dataset?.replaceEntries(self._entries)
     }
-    
   }
+
+
+  public override func getEntryFromTuple(_ tuple: YailList<AnyObject>) -> ChartDataEntry? {
+    guard tuple.count >= 2,
+          let rawX = tuple[0+1] as? String,
+          let rawY = tuple[1+1] as? String else {
+      // Handle error for insufficient chart entry values or type mismatch
+      // TODO: we might want to give a warning instead
+      return nil
+    }
+
+    if let x = Float(rawX), let y = Float(rawY) {
+      // Floor the x value and convert to Int as the Bar Chart uses x entries as an index
+      let flooredX = Int(floor(x))
+      return BarChartDataEntry(x: Double(flooredX), y: Double(y))
+    } else {
+      // Handle number format exception
+      // TODO: we might want to give a warning instead
+      return nil
+    }
+  }
+
+  public override func removeEntry(_ index: Int) {
+    // Check if the index is within the bounds of the entries array
+    guard index >= 0 && index < entries.count else { return }
+
+    entries[index].y = 0.0
+  }
+
+  public override func addTimeEntry(_ tuple: YailList<AnyObject>) {
+    // Ensure there's a mechanism to convert the tuple to a BarChartDataEntry
+    guard let entry = getEntryFromTuple(tuple ) as? BarChartDataEntry else {
+      return
+    }
+
+    // If the entry count exceeds the maximum allowed time entries, remove the first one
+    if entries.count >= maximumTimeEntries {
+      _entries.append(BarChartDataEntry(x: Double(entries.count), y: 0.0))
+    }
+
+    // Add the new entry
+    _entries.append(entry)
+  }
+
+  public override func areEntriesEqual(_ e1: ChartDataEntry, _ e2: ChartDataEntry) -> Bool {
+      guard let barEntry1 = e1 as? BarChartDataEntry,
+            let barEntry2 = e2 as? BarChartDataEntry else {
+          return false
+      }
+
+      // Floor the x values to compare without the decimal part,
+      // and directly compare the y values.
+      return floor(barEntry1.x) == floor(barEntry2.x) && barEntry1.y == barEntry2.y
+  }
+
 
   public func getTupleFromEntry(_ entry: DGCharts.BarChartDataEntry) -> YailList<AnyObject> {
     let tupleEntries: Array<Float> = [Float(floor(entry.x)), Float(entry.y)]
