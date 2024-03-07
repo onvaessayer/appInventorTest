@@ -137,11 +137,9 @@ import DGCharts
 
   @objc open var Labels: [String] {
     get {
-      print("_getlable", _labels)
       return _labels
     }
     set {
-      print("_setlabels", _labels)
       _labels = newValue
     }
   }

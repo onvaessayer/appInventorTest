@@ -57,24 +57,27 @@ class ScatterChartDataModel: PointChartDataModel {
   }
 
 
-  public func setPointShape(_ shape: Shape) {
-//    if let dataset = dataset as? DGCharts.ScatterChartDataSet {
-//      switch type {
-//      case LineType.Linear:
-//        dataset.mode = LineChartDataSet.Mode.linear
-//        break
-//
-//      case LineType.Curved:
-//        dataset.mode = LineChartDataSet.Mode.cubicBezier
-//        break
-//
-//      case LineType.Stepped:
-//        dataset.mode = LineChartDataSet.Mode.stepped
-//        break
-//      }
-//    } else {
-//      return
-//    }
+  public func setPointShape(_ shape: PointShape) {
+    guard let scatterDataSet = dataset as? DGCharts.ScatterChartDataSet else {
+      return
+    }
+    switch shape {
+    case PointShape.Circle:
+      scatterDataSet.setScatterShape(.circle)
+      break
+    case PointShape.Square:
+      scatterDataSet.setScatterShape(.square)
+      break
+    case PointShape.Triangle:
+      scatterDataSet.setScatterShape(.triangle)
+      break
+    case PointShape.Cross:
+      scatterDataSet.setScatterShape(.cross)
+      break
+    case PointShape.X:
+      scatterDataSet.setScatterShape(.x)
+      break
+    }
   }
 
 }

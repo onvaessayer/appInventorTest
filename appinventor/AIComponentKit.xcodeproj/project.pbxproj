@@ -193,6 +193,7 @@
 		158C86B72B8E336C00D33EE4 /* BarChartDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158C86B62B8E336C00D33EE4 /* BarChartDataModel.swift */; };
 		159AC1692B98E9CF002906B7 /* ScatterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159AC1682B98E9CF002906B7 /* ScatterChartView.swift */; };
 		159AC16B2B98E9E2002906B7 /* ScatterChartDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159AC16A2B98E9E2002906B7 /* ScatterChartDataModel.swift */; };
+		159AC16F2B9929C6002906B7 /* PointShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159AC16E2B9929C6002906B7 /* PointShape.swift */; };
 		22843757284F89DF00EC3133 /* AssetFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22843756284F89DF00EC3133 /* AssetFetcher.swift */; };
 		46E77D8E29DD6894002CCDFB /* ShowAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E77D8D29DD6894002CCDFB /* ShowAlert.swift */; };
 		5132E481C0B949ECDE06AE78 /* Pods_AIComponentKit_AIComponentKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FD2633D7266389EB43FF45F /* Pods_AIComponentKit_AIComponentKitTests.framework */; };
@@ -469,6 +470,7 @@
 		158C86B62B8E336C00D33EE4 /* BarChartDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartDataModel.swift; sourceTree = "<group>"; };
 		159AC1682B98E9CF002906B7 /* ScatterChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScatterChartView.swift; sourceTree = "<group>"; };
 		159AC16A2B98E9E2002906B7 /* ScatterChartDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScatterChartDataModel.swift; sourceTree = "<group>"; };
+		159AC16E2B9929C6002906B7 /* PointShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointShape.swift; sourceTree = "<group>"; };
 		22843756284F89DF00EC3133 /* AssetFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetFetcher.swift; sourceTree = "<group>"; };
 		32349630B8B4D40D05FB295A /* Pods-AIComponentKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AIComponentKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AIComponentKitTests/Pods-AIComponentKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		46E77D8D29DD6894002CCDFB /* ShowAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAlert.swift; sourceTree = "<group>"; };
@@ -687,6 +689,7 @@
 			children = (
 				068F9857289A2FD600E2883F /* Chart.swift */,
 				B49FD9BD2AF894E40049FA79 /* LineType.swift */,
+				159AC16E2B9929C6002906B7 /* PointShape.swift */,
 				068F9859289A320200E2883F /* ChartData2D.swift */,
 				068F985B289A323400E2883F /* ChartDataBase.swift */,
 				068F985F289A344C00E2883F /* DataSource.swift */,
@@ -1496,6 +1499,7 @@
 				0846B64620BBBF92008FB20C /* Sprite.swift in Sources */,
 				06E59EB11D92D16100C42804 /* Button.swift in Sources */,
 				DEE8A98D1FAF9E59000C7E6B /* EmailPicker.swift in Sources */,
+				159AC16F2B9929C6002906B7 /* PointShape.swift in Sources */,
 				DE0FFBDF20C5E9440049A748 /* Checkbox.swift in Sources */,
 				CBC7868620113A3C005363A3 /* CircularBuffer.swift in Sources */,
 				06E59EB31D92D19600C42804 /* Label.swift in Sources */,

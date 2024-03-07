@@ -94,7 +94,6 @@ import DGCharts
   
   @objc open var Label: String {
     get {
-      print("get label in chartdatabase", _label) //TODO:  why is this empty
       return _label!
     }
     set {
@@ -120,6 +119,14 @@ import DGCharts
     }
   }
   
+  func PointShape(_ shape: PointShape) {
+    // Only change the Line Type if the Chart Data Model is a
+    // LineChartBaseDataModel (other models do not support changing the Line Type_
+    if let _chartDataModel = _chartDataModel as? ScatterChartDataModel {
+      _chartDataModel.setPointShape(shape)
+    }
+  }
+
   // TODO: CANT FIND WHERE COPY IS DEFINED IN JAVA CODE
   func copy(with zone: NSZone? = nil) -> Any {
     //let copy = ChartDataBase()
@@ -221,7 +228,6 @@ import DGCharts
     // avoid deadlocks by not using .main queue here
     DispatchQueue.global(qos: .default).async {
       holder = (self._chartDataModel?.findEntriesByCriterion(x, EntryCriterion.XValue))!
-      print("holder", holder)
       group.leave()
     }
     group.wait()
@@ -244,7 +250,6 @@ import DGCharts
     // avoid deadlocks by not using .main queue here
     DispatchQueue.global(qos: .default).async {
       holder = (self._chartDataModel?.findEntriesByCriterion(y, EntryCriterion.YValue))!
-      print("holder", holder)
       group.leave()
     }
     group.wait()
@@ -260,7 +265,6 @@ import DGCharts
     // avoid deadlocks by not using .main queue here
     DispatchQueue.global(qos: .default).async {
       holder = (self._chartDataModel?.getEntriesAsTuples())!
-      print("holder", holder)
       group.leave()
     }
     group.wait()
@@ -280,10 +284,8 @@ import DGCharts
   }
   
   func onDataChange(){
-    print("in ondatachange")
     // update the chart with the chart data model's current data and refresh the chart itself
     _container._chartView?.refresh(model: _chartDataModel!)
   }
-  
   
 }
