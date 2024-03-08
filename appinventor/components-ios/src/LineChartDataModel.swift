@@ -5,7 +5,7 @@ import Foundation
 import DGCharts
 
 class LineChartDataModel: LineChartBaseDataModel {
-  override init(data: DGCharts.LineChartData, view: LineChartView) {
+  public init(data: DGCharts.LineChartData, view: LineChartView) {
     super.init(data: data, view: view)
   }
 }

@@ -260,7 +260,7 @@ import DGCharts
     case .Scatter:
       return ScatterChartView(self)
     case .Area:
-      return (LineChartView(self) as AnyObject) as! ChartView
+      return AreaChartView(self)
     case .Bar:
       return BarChartView(self) as ChartView
     case .Pie:
