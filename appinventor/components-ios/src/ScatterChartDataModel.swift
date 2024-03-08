@@ -56,26 +56,37 @@ class ScatterChartDataModel: PointChartDataModel {
     scatterDataSet.setScatterShape(.circle)
   }
 
+//  @objc open var `PointShape`: PointStyle {
+//    get {
+//      return _pointshape
+//    }
+//    set {
+//      _pointshape = newValue
+//      setPointShape(_pointshape)
+//    }
+//  }
 
-  public func setPointShape(_ shape: PointShape) {
+  public func setPointShape(_ shape: PointStyle) {
     guard let scatterDataSet = dataset as? DGCharts.ScatterChartDataSet else {
       return
     }
     switch shape {
-    case PointShape.Circle:
+    case PointStyle.Circle:
       scatterDataSet.setScatterShape(.circle)
       break
-    case PointShape.Square:
+    case PointStyle.Square:
       scatterDataSet.setScatterShape(.square)
       break
-    case PointShape.Triangle:
+    case PointStyle.Triangle:
       scatterDataSet.setScatterShape(.triangle)
       break
-    case PointShape.Cross:
+    case PointStyle.Cross:
       scatterDataSet.setScatterShape(.cross)
       break
-    case PointShape.X:
+    case PointStyle.X:
       scatterDataSet.setScatterShape(.x)
+      break
+    default:
       break
     }
   }

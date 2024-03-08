@@ -62,7 +62,17 @@ class LineChartBaseDataModel: PointChartDataModel {
       dataset.drawCircleHoleEnabled = true // also update the circle color
     }
   }
-  
+
+//  @objc open var `LineType`: Line {
+//    get {
+//      return _type
+//    }
+//    set {
+//      _type = newValue
+//      setLineType(_type)
+//    }
+//  }
+
   public func setLineType(_ type: LineType) {
     if let dataset = dataset as? DGCharts.LineChartDataSet {
       dataset.drawCircleHoleEnabled = true// also update the circle color
@@ -77,6 +87,8 @@ class LineChartBaseDataModel: PointChartDataModel {
 
       case LineType.Stepped:
         dataset.mode = LineChartDataSet.Mode.stepped
+        break
+      default:
         break
       }
     } else {
