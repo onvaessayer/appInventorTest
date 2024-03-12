@@ -6,7 +6,7 @@
 
 package com.google.appinventor.client.editor.youngandroid.palette;
 
-import com.google.appinventor.client.ComponentsTranslation;
+import com.google.appinventor.client.editor.simple.components.i18n.ComponentTranslationTable;
 import com.google.appinventor.client.editor.simple.SimpleComponentDatabase;
 import com.google.appinventor.client.editor.simple.components.MockComponent;
 import com.google.appinventor.client.editor.simple.components.utils.PropertiesUtil;
@@ -170,7 +170,7 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
     panel.setWidth("100%");
 
     for (String component : COMPONENT_DATABASE.getComponentNames()) {
-      String translationName = ComponentsTranslation.getComponentName(component).toLowerCase();
+      String translationName = ComponentTranslationTable.getComponentName(component).toLowerCase();
       arrayString.push(translationName);
       translationMap.put(translationName, component);
     }
@@ -218,7 +218,7 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
         // Extension title for the palette.
         String title = ComponentCategory.EXTENSION.equals(category) ?
           MESSAGES.extensionComponentPallette() :
-          ComponentsTranslation.getCategoryName(category.getName());
+          ComponentTranslationTable.getCategoryName(category.getName());
         stackPalette.add(categoryPanel, title);
       }
     }
@@ -433,7 +433,7 @@ public class YoungAndroidPalettePanel extends Composite implements SimplePalette
       title = MESSAGES.extensionComponentPallette();
       initExtensionPanel();
     } else {
-      title = ComponentsTranslation.getCategoryName(category.getName());
+      title = ComponentTranslationTable.getCategoryName(category.getName());
     }
     stackPalette.setStackText(insert_index, title);
     categoryOrder.add(insert_index, category.ordinal());
