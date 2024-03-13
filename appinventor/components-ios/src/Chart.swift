@@ -137,11 +137,9 @@ import DGCharts
 
   @objc open var Labels: [String] {
     get {
-      print("_getlable", _labels)
       return _labels
     }
     set {
-      print("_setlabels", _labels)
       _labels = newValue
     }
   }
@@ -260,10 +258,9 @@ import DGCharts
     case .Line:
       return LineChartView(self) as ChartView
     case .Scatter:
-      //return ScatterChartView(frame: .zero)
-      fatalError("whoops")
+      return ScatterChartView(self)
     case .Area:
-      return (LineChartView(self) as AnyObject) as! ChartView
+      return AreaChartView(self)
     case .Bar:
       return BarChartView(self) as ChartView
     case .Pie:

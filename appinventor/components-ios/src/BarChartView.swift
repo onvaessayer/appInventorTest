@@ -15,13 +15,15 @@ class BarChartView: AxisChartView {
   private let groupSpace: Double = 0.08
   private var barSpace: Double = 0.0
   private var barWidth: Double = 0.3
+  private var barCharts = [DGCharts.BarChartView]()
 
   override init(_ chartComponent: Chart) {
     super.init(chartComponent)
 
-    chart = DGCharts.BarChartView()
+    let chart = DGCharts.BarChartView()
+    self.chart = chart
     data = DGCharts.BarChartData()
-    chart?.data = data
+    chart.data = data
 
     initializeDefaultSettings()
   }
@@ -48,7 +50,7 @@ class BarChartView: AxisChartView {
 
     if dataSetCount > 1 {
       let x = (1.0 - groupSpace) / Double(dataSetCount)
-      
+
       self.barSpace = x * 0.1
       self.barWidth = x * 0.9
       //chart?.data?.barWidth = barWidth
@@ -59,14 +61,14 @@ class BarChartView: AxisChartView {
     }
   }
 
-//  override func initializeDefaultSettings() {
-//    super.initializeDefaultSettings()
-//
-//    chart.frame = self.bounds
-//    chart?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//
-//    chart!.xAxis.granularity = 1.0
-//  }
+  override func initializeDefaultSettings() {
+    super.initializeDefaultSettings()
+
+    //    chart.frame = self.bounds
+    //    chart?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    //
+    //    chart!.xAxis.granularity = 1.0
+  }
 
   func refresh(model: BarChartDataModel, entries: Array<DGCharts.ChartDataEntry>) {
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -79,16 +81,32 @@ class BarChartView: AxisChartView {
     }
   }
 
-//  private func regroupBars() {
-//    let dataSetCount = chart?.data?.dataSetCount ?? 0
-//
-//    if dataSetCount > 1 {
-//      chart.groupBars(fromX: startXValue, groupSpace: groupSpace, barSpace: barSpace)
-//
-//      let maxEntries = chart?.data?.dataSets.max(by: { $0.entryCount < $1.entryCount })?.entryCount ?? 0
-//      chart!.xAxis.axisMinimum = startXValue
-//      let groupWidth = chart.data?.groupWidth(groupSpace: groupSpace, barSpace: barSpace) ?? 0
-//      chart!.xAxis.axisMaximum = startXValue + groupWidth * Double(maxEntries)
-//    }
-//  }
+  // MARK: iOS Helpers
+
+  public var barChart: DGCharts.BarChartView? {
+    return chart as? DGCharts.BarChartView
+  }
+
+  private func regroupBars() {
+    guard let chartData = chart?.data, chartData.dataSetCount > 1 else {
+      // If there is only a single data series in the bar chart, no action is taken.
+      return
+    }
+
+    // Group bar chart bars with the current parameters
+    barChart?.groupBars(fromX: startXValue, groupSpace: groupSpace, barSpace: barSpace)
+
+    // Determine the maximum number of entries between bar data sets.
+    // This value is needed to apply the maximum value of the axis.
+    let maxEntries = chartData.dataSets.reduce(0) { max($0, $1.entryCount) }
+
+    // Update the x axis to start from the start x value
+    chart?.xAxis.axisMinimum = startXValue
+
+    // Set the maximum value for the x axis based on maximum entries and the group
+    // width of the grouped bars. The calculation is based directly on the example
+    // presented in the Charts library example activities.
+    chart?.xAxis.axisMaximum = startXValue + barWidth * Double(maxEntries)
+  }
+
 }

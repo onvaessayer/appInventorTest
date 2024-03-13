@@ -190,11 +190,9 @@ open class ChartDataModel {
         entries.append(getTupleFromEntry(entry))
       }
     }
-    print("entries", entries)
     for entry in entries {
       entriesYail.add(entry)
     }
-    print("entriesYail", entriesYail)
     // return entries as! YailList<AnyObject>
     return entriesYail
   }

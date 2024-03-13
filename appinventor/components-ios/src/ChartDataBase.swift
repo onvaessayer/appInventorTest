@@ -10,7 +10,6 @@ import Foundation
 import DGCharts
 
 @objc class ChartDataBase: NSObject, Component, DataSourceChangeListener, ChartViewDelegate {
-
   var _chartDataModel: ChartDataModel?
   var _container: Chart
   var _color: Int32 = AIComponentKit.Color.black.int32
@@ -19,6 +18,8 @@ import DGCharts
 
   var dataFileColumns: Array<String> = []
   var useSheetHeaders: Bool?
+  var _lineType = AIComponentKit.LineType.Linear
+  var _pointshape = PointStyle.Circle
   var sheetColumns: Array<String> = []
   var webColumns: Array<String> = []
   var dataSourceKey: String?
@@ -71,9 +72,9 @@ import DGCharts
     set {
       var resultColors: Array<Int> = []
       for i in newValue {
-        var color: NSString = "\(i)" as NSString
+        let color: NSString = "\(i)" as NSString
         var colorValue: CLong = CLong(color.longLongValue)
-        var two: CLong = 2
+        let two: CLong = 2
         if colorValue > Int.max {
           colorValue = colorValue + two * CLong(Int.min)
         }
@@ -99,7 +100,6 @@ import DGCharts
   
   @objc open var Label: String {
     get {
-      print("get label in chartdatabase", _label) //TODO:  why is this empty
       return _label!
     }
     set {
@@ -119,15 +119,38 @@ import DGCharts
     Label = _label
 
   }
-  
-  func LineType(_ type: LineType) {
-    // Only change the Line Type if the Chart Data Model is a
-    // LineChartBaseDataModel (other models do not support changing the Line Type_
-    if let _chartDataModel = _chartDataModel as? LineChartDataModel {
-      _chartDataModel.setLineType(type)
+
+  @objc open var LineType: LineType {
+    get {
+      return _lineType
+    }
+    set {
+      _lineType = newValue
+
+      // Only change the Line Type if the Chart Data Model is a
+      // LineChartBaseDataModel (other models do not support changing the Line Type_
+      if let _chartDataModel = _chartDataModel as? LineChartDataModel {
+        _chartDataModel.setLineType(_lineType)
+      }
+      refreshChart()
     }
   }
-  
+
+  @objc open var `PointShape`: PointStyle {
+    get {
+      return _pointshape
+    }
+    set {
+      _pointshape = newValue
+      //    // Only change the Line Type if the Chart Data Model is a
+      //    // LineChartBaseDataModel (other models do not support changing the Line Type_
+      if let _chartDataModel = _chartDataModel as? ScatterChartDataModel {
+        _chartDataModel.setPointShape(_pointshape)
+      }
+      refreshChart()
+    }
+  }
+
   // TODO: CANT FIND WHERE COPY IS DEFINED IN JAVA CODE
   func copy(with zone: NSZone? = nil) -> Any {
     //let copy = ChartDataBase()
@@ -229,7 +252,6 @@ import DGCharts
     // avoid deadlocks by not using .main queue here
     DispatchQueue.global(qos: .default).async {
       holder = (self._chartDataModel?.findEntriesByCriterion(x, EntryCriterion.XValue))!
-      print("holder", holder)
       group.leave()
     }
     group.wait()
@@ -252,7 +274,6 @@ import DGCharts
     // avoid deadlocks by not using .main queue here
     DispatchQueue.global(qos: .default).async {
       holder = (self._chartDataModel?.findEntriesByCriterion(y, EntryCriterion.YValue))!
-      print("holder", holder)
       group.leave()
     }
     group.wait()
@@ -268,7 +289,6 @@ import DGCharts
     // avoid deadlocks by not using .main queue here
     DispatchQueue.global(qos: .default).async {
       holder = (self._chartDataModel?.getEntriesAsTuples())!
-      print("holder", holder)
       group.leave()
     }
     group.wait()
@@ -288,10 +308,8 @@ import DGCharts
   }
   
   func onDataChange(){
-    print("in ondatachange")
     // update the chart with the chart data model's current data and refresh the chart itself
     _container._chartView?.refresh(model: _chartDataModel!)
   }
-  
   
 }
