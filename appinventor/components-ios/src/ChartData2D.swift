@@ -85,14 +85,22 @@ import DGCharts
           for point in dataPoint {
             dataPointInt.append(point as! Int)
           }
+
           let dataPointIndex: Int = dataPointInt[0]  // anomaly detection replacement
           print("dataPointIndex", dataPointIndex)
           print("dataPointIndex-1", dataPointIndex-1)
           print("dataPointIndextype", type(of: dataPointIndex))
+          print("highlights.count", highlights.count)
+          print("highlights2", highlights)
+
+          if dataPointIndex >= highlights.count {
+            continue
+          }
           highlights[dataPointIndex - 1] = color // TODO: WHY IS THIS ALWAYS OUT OF RANGE?
           print(highlights[dataPointIndex - 1])
         }
       }
+      
       let lineDataSet: LineChartDataSet = _chartDataModel?.dataset as! LineChartDataSet
       var highlightsUI: Array<NSUIColor> = []
       for highlight in highlights {

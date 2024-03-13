@@ -36,8 +36,6 @@ import DGCharts
     chartContainer.addDataComponent(self)
     initChartData()
     DataSourceKey("")
-    //Label("")
-    Label(_label)
   }
   
   @objc open var Color: Int32 {
@@ -59,8 +57,8 @@ import DGCharts
     } else{
       print("in here")
       ElementsFromPairs = _elements!
-      print("_label", _label)
-      Label = _label
+      /*print("_label", _label)
+      Label = _label!*/
     }
   }
   
@@ -111,13 +109,12 @@ import DGCharts
   }
   
   func initChartData() {
+    print("in initChartData")
     _chartDataModel = _container.chartView?.createChartModel()
 
     // set default values
     Color = AIComponentKit.Color.black.int32
-    // Label = ""
-    Label = _label
-
+    Label = ""
   }
 
   @objc open var LineType: LineType {
