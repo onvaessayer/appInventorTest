@@ -6,5 +6,5 @@
 package com.google.appinventor.client.editor.simple.components.i18n;
 
 public interface ComponentTranslations extends ComponentInfoTranslations,
-    ComponentFunctionTranslations, ComponentPropertyTranslations {
+    ComponentEventTranslations, ComponentMethodTranslations, ComponentPropertyTranslations {
 }
