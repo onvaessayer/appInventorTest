@@ -6,5 +6,5 @@ import Foundation
 @objc protocol ObservableDataSource: DataSource {
   func addDataObserver(_ listener: DataSourceChangeListener)
   func removeDataObserver(_ listener: DataSourceChangeListener)
-  func notifyDataObservers(_ key: AnyObject, _ newValue: AnyObject)
+  func notifyDataObservers(_ key: AnyObject?, _ newValue: AnyObject?)
 }

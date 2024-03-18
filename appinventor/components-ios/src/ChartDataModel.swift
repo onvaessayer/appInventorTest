@@ -76,11 +76,11 @@ open class ChartDataModel {
       if let entry = entry as? YailList<AnyObject> {
         tuple = entry
       } else if let entry = entry as? Array<AnyObject> {
-        tuple = entry as? YailList<AnyObject>
+        tuple = YailList(array: entry)
       }
       
-      if tuple != nil {
-        addEntryFromTuple(tuple!)
+      if let tuple = tuple {
+        addEntryFromTuple(tuple)
       }
     }
   }
@@ -103,29 +103,18 @@ open class ChartDataModel {
     }
   }
 
-  func importFromColumns(_ columns: YailList<AnyObject>, _ hasHeaders: Bool) {
+  func importFromColumns(_ columns: NSArray, _ hasHeaders: Bool) {
     // bet a yaillist of tuples from the specified columns
-    let tuples: YailList<AnyObject> = getTuplesFromColumns(columns, hasHeaders)
+    let tuples = getTuplesFromColumns(columns, hasHeaders)
     
     // use the generated tuple list in the importFromList method to import the data
     importFromList(tuples as [AnyObject])
-
   }
 
-  func getTuplesFromColumns(_ columns: YailList<AnyObject>, _ hasHeaders: Bool) -> YailList<AnyObject> {
-    // code substituting determineMaximumListSize: determine the (max) row count of the specified columns
-    var entries: Int = 0
-    for row in columns {
-      if let row = row as? Array<AnyObject> {
-        if row.count > entries {
-          entries = row.count
-        }
-      }
-    }
-    // swift code follows java from here
-    let row: Int =  entries
+  func getTuplesFromColumns(_ columns: NSArray, _ hasHeaders: Bool) -> NSArray {
+    var entries = columns.map({ ($0 as? Array<AnyObject>)?.count ?? 0 }).min() ?? 0
     var tuples: Array<YailList<AnyObject>> = []
-    for i in stride(from: hasHeaders ? 1 : 0, to: row, by: 1) {
+    for i in stride(from: hasHeaders ? 1 : 0, to: entries, by: 1) {
       var tupleElements: Array<String> = []
       for j in stride(from: 0, to: columns.count, by: 1) {
         let value = columns[j]
@@ -134,23 +123,14 @@ open class ChartDataModel {
           tupleElements.append(getDefaultValue(i - 1))
           continue
         }
-        // safe cast value to YailList
-        let column: YailList<AnyObject> = value as! YailList<AnyObject>
-        if column.count > i { // Entry exists in column
-          // add entry from column
-          tupleElements.append("\(column[i+1])") //TODO: SHOULD I DO i+1 like getString() func or not
-        } else if column.count == 0 { // column empty
-          // use default value instead (we use an index minus one to compensate for the skipped initial value)
-          tupleElements.append(getDefaultValue(i - 1))
-        } else { // column too small
-          // add blank entry (""), up for teh addEntryFromTuple method to interpret
-          tupleElements.append("")
+        guard let column = value as? NSArray else {
+          continue
         }
+        tupleElements.append(String(describing: column[i]))
       }
-      let tuple: YailList<AnyObject> = tupleElements as! YailList<AnyObject>
-      tuples.append(tuple)
+      tuples.append(YailList(array: tupleElements))
     }
-    return tuples as! YailList<AnyObject>
+    return tuples as NSArray
   }
 
   func addEntryFromTuple(_ tuple: YailList<AnyObject>) {

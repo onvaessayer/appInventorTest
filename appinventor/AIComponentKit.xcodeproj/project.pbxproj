@@ -19,6 +19,7 @@
 		06009FF62280723F00E4EC4A /* ImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06009FF52280723F00E4EC4A /* ImageTests.swift */; };
 		06009FF82285BEEB00E4EC4A /* SpinnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06009FF72285BEEB00E4EC4A /* SpinnerTests.swift */; };
 		060119DE1DC24126000FC1E2 /* ListPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060119DD1DC24126000FC1E2 /* ListPicker.swift */; };
+		060150992BA4E49F000CAF92 /* ChartDataSourceUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060150982BA4E49F000CAF92 /* ChartDataSourceUtil.swift */; };
 		0602B270203481F900ED60A8 /* FormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0602B26F203481F900ED60A8 /* FormTests.swift */; };
 		060395451F342ADE006D6E66 /* language-codes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 060395431F342ADE006D6E66 /* language-codes.plist */; };
 		060395461F342ADE006D6E66 /* iso3166_1_2_to_iso3166_1_3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 060395441F342ADE006D6E66 /* iso3166_1_2_to_iso3166_1_3.plist */; };
@@ -146,6 +147,7 @@
 		06D1519E1DC4F49C00FC981E /* AppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D1519D1DC4F49C00FC981E /* AppManager.swift */; };
 		06D151E81DC4FE2A00FC981E /* ElementsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D151E71DC4FE2A00FC981E /* ElementsUtil.swift */; };
 		06D151EA1DC6ED5200FC981E /* HVArrangement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D151E91DC6ED5200FC981E /* HVArrangement.swift */; };
+		06D81F482BA352CA0058E94F /* ChartDataSourceUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D81F472BA352CA0058E94F /* ChartDataSourceUtil.swift */; };
 		06D998EE1F53CDDB00A13A0E /* ContactPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D998ED1F53CDDB00A13A0E /* ContactPicker.swift */; };
 		06DA9F4F1D8CFB4B00389B04 /* VisibleComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DA9F4E1D8CFB4B00389B04 /* VisibleComponent.swift */; };
 		06DA9F501D8CFBA200389B04 /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0618A26E1D8CE3750013A191 /* Form.swift */; };
@@ -293,6 +295,7 @@
 		06009FF52280723F00E4EC4A /* ImageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTests.swift; sourceTree = "<group>"; };
 		06009FF72285BEEB00E4EC4A /* SpinnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerTests.swift; sourceTree = "<group>"; };
 		060119DD1DC24126000FC1E2 /* ListPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListPicker.swift; sourceTree = "<group>"; };
+		060150982BA4E49F000CAF92 /* ChartDataSourceUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataSourceUtil.swift; sourceTree = "<group>"; };
 		0602B26F203481F900ED60A8 /* FormTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTests.swift; sourceTree = "<group>"; };
 		060395431F342ADE006D6E66 /* language-codes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "language-codes.plist"; sourceTree = "<group>"; };
 		060395441F342ADE006D6E66 /* iso3166_1_2_to_iso3166_1_3.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = iso3166_1_2_to_iso3166_1_3.plist; sourceTree = "<group>"; };
@@ -432,6 +435,7 @@
 		06D1519D1DC4F49C00FC981E /* AppManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppManager.swift; sourceTree = "<group>"; };
 		06D151E71DC4FE2A00FC981E /* ElementsUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementsUtil.swift; sourceTree = "<group>"; };
 		06D151E91DC6ED5200FC981E /* HVArrangement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HVArrangement.swift; sourceTree = "<group>"; };
+		06D81F472BA352CA0058E94F /* ChartDataSourceUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataSourceUtil.swift; sourceTree = "<group>"; };
 		06D998ED1F53CDDB00A13A0E /* ContactPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactPicker.swift; sourceTree = "<group>"; };
 		06DA9F4E1D8CFB4B00389B04 /* VisibleComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisibleComponent.swift; sourceTree = "<group>"; };
 		06DA9F5C1D8D0CAA00389B04 /* AppInvHTTPD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppInvHTTPD.h; sourceTree = "<group>"; };
@@ -848,6 +852,7 @@
 				068AA81A1DE61FE20011CC74 /* ApplicationFactory.swift */,
 				06B5872B1DC02B190092C9DD /* AssetManager.swift */,
 				06F91463252CE50B00AF8F88 /* BundledApp.swift */,
+				06D81F472BA352CA0058E94F /* ChartDataSourceUtil.swift */,
 				CBC7868520113A3C005363A3 /* CircularBuffer.swift */,
 				06B216071DB954A5000B3366 /* ColorUtil.swift */,
 				B4BADF202B0839340059E2FB /* BinarySearchUtil.swift */,
@@ -1053,6 +1058,7 @@
 		06FB67D9247B8EB900ABEAD6 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				060150982BA4E49F000CAF92 /* ChartDataSourceUtil.swift */,
 				06ACC85726399864006ADC14 /* JsonUtilTests.swift */,
 				06FB67DA247B8EDA00ABEAD6 /* LinearViewTests.swift */,
 			);
@@ -1427,6 +1433,7 @@
 				08815DB7210B532800FA89F7 /* Ev3Commands.swift in Sources */,
 				068E0EB51DC251A20086FFDA /* Sharing.swift in Sources */,
 				DEA5C6E220E1A2B00083A49B /* Rectangle.swift in Sources */,
+				06D81F482BA352CA0058E94F /* ChartDataSourceUtil.swift in Sources */,
 				068F9862289A34B100E2883F /* RealTimeDataSource.swift in Sources */,
 				04AB2224202129FA0033281F /* Map.swift in Sources */,
 				159AC1692B98E9CF002906B7 /* ScatterChartView.swift in Sources */,
@@ -1617,6 +1624,7 @@
 				DE68A88D20B4971400233AF9 /* XMLTests.swift in Sources */,
 				0653CBDA1F971BA70052065A /* TestFailure.swift in Sources */,
 				064F224927342A3300CFA04B /* MapTests.swift in Sources */,
+				060150992BA4E49F000CAF92 /* ChartDataSourceUtil.swift in Sources */,
 				06FB67DD247D4AB200ABEAD6 /* ListViewTests.swift in Sources */,
 				0665ADE7210F592D0044C887 /* FileTests.swift in Sources */,
 				06F15C0F24059B0100C783E3 /* TextBoxTests.swift in Sources */,

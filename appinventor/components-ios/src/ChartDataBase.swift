@@ -17,10 +17,9 @@ import DGCharts
   var _label: String?
 
   var dataFileColumns: Array<String> = []
-  var useSheetHeaders: Bool?
   var _lineType = AIComponentKit.LineType.Linear
   var _pointshape = PointStyle.Circle
-  var sheetColumns: Array<String> = []
+  var sheetColumns: Array<String> = ["", ""]
   var webColumns: Array<String> = []
   var dataSourceKey: String?
   var colors: YailList<AnyObject>?
@@ -54,11 +53,8 @@ import DGCharts
     _initialized = true
     if dataSource != nil {
       // Source(dataSource)
-    } else{
-      print("in here")
-      ElementsFromPairs = _elements!
-      /*print("_label", _label)
-      Label = _label!*/
+    } else if let elements = _elements {
+      ElementsFromPairs = elements
     }
   }
   
@@ -148,15 +144,25 @@ import DGCharts
     }
   }
 
+  @objc public var SpreadsheetUseHeaders = false
+
+  @objc public var SpreadsheetXColumn = "" {
+    didSet {
+      sheetColumns[0] = SpreadsheetXColumn
+    }
+  }
+
+  @objc public var SpreadsheetYColumn = "" {
+    didSet {
+      sheetColumns[1] = SpreadsheetYColumn
+    }
+  }
+
   // TODO: CANT FIND WHERE COPY IS DEFINED IN JAVA CODE
   func copy(with zone: NSZone? = nil) -> Any {
     //let copy = ChartDataBase()
     //return copy
     return -1
-  }
-  
-  func SpreadsheetUseHeaders(_ useHeaders: Bool) {
-    useSheetHeaders = useHeaders
   }
   
   func onDataSourceValueChange(_ component: DataSource, _ key: String?, _ newValue: AnyObject?) {
@@ -299,14 +305,49 @@ import DGCharts
     // Undefined behavior: return empty list
     return []*/
   }
-  
-  @objc func ImportFromTinyDB(){
-    fatalError("TinyDB is not implemented in IOS")
+
+  @objc func ImportFromList(_ list: [AnyObject]) {
+    _chartDataModel?.importFromList(list)
+    refreshChart()
+  }
+
+  @objc func ImportFromSpreadsheet(_ spreadsheet: Spreadsheet, _ xColumn: String, _ yColumn: String, _ useHeaders: Bool) {
+    let dataColumns = spreadsheet.getDataValue([xColumn, yColumn] as NSArray, useHeaders)
+    if dataSource === spreadsheet {
+      updateCurrentDataSourceValue(spreadsheet, nil, nil)
+    }
+    _chartDataModel?.importFromColumns((dataColumns as? NSArray) ?? NSArray(), useHeaders)
+    refreshChart()
+  }
+
+  @objc func ImportFromTinyDB(_ tinyDB: TinyDB, _ tag: String) {
+    let list = tinyDB.getDataValue(tag as NSString)
+    updateCurrentDataSourceValue(tinyDB, tag, list)
+    refreshChart()
   }
   
   func onDataChange(){
     // update the chart with the chart data model's current data and refresh the chart itself
     _container._chartView?.refresh(model: _chartDataModel!)
   }
-  
+
+  // MARK: Private Implementation
+
+  private func updateCurrentDataSourceValue(_ source: DataSource, _ key: String?, _ newValue: AnyObject?) {
+    guard source === dataSource && isKeyValid(key) else {
+      return
+    }
+    if let source = source as? Web {
+      // TODO: Implement ImportFromWeb logic
+    } else if let source = source as? Spreadsheet {
+      let columns = source.getColumns(sheetColumns as NSArray, SpreadsheetUseHeaders)
+      lastDataSourceValue = _chartDataModel?.getTuplesFromColumns(columns, SpreadsheetUseHeaders)
+    } else {
+      lastDataSourceValue = newValue
+    }
+  }
+
+  private func isKeyValid(_ key: String?) -> Bool {
+    return key == nil || dataSourceKey == key
+  }
 }
