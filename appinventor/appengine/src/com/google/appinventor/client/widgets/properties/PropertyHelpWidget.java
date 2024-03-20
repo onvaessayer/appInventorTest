@@ -5,7 +5,7 @@
 
 package com.google.appinventor.client.widgets.properties;
 
-import com.google.appinventor.client.ComponentsTranslation;
+import com.google.appinventor.client.editor.simple.components.i18n.ComponentTranslationTable;
 import com.google.appinventor.client.Images;
 import com.google.appinventor.client.Ode;
 
@@ -41,11 +41,11 @@ public final class PropertyHelpWidget extends Image {
       // Create popup panel.
       super(true);
       setStyleName("ode-ComponentHelpPopup");
-      setTitle(ComponentsTranslation.getPropertyName(prop.getName()));
+      setTitle(ComponentTranslationTable.getPropertyName(prop.getName()));
 
       // Create title from component name.
-      Label titleBar = new Label(ComponentsTranslation.getPropertyName(prop.getName()));
-      setTitle(ComponentsTranslation.getPropertyName(prop.getName()));
+      Label titleBar = new Label(ComponentTranslationTable.getPropertyName(prop.getName()));
+      setTitle(ComponentTranslationTable.getPropertyName(prop.getName()));
       titleBar.setStyleName("ode-ComponentHelpPopup-TitleBar");
 
       // Create content from help string.
