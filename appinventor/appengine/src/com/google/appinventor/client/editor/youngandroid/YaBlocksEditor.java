@@ -48,7 +48,6 @@ import java.util.logging.Logger;
  */
 public final class YaBlocksEditor extends BlocksEditor<YoungAndroidBlocksNode, YaFormEditor>
     implements ProjectChangeListener {
-
   private static final BlocksLanguage YAIL =
       new BlocksLanguage("Yail", YaVersion.BLOCKS_LANGUAGE_VERSION,
           new BlocksCategory("Control", IMAGES.control()),
@@ -59,6 +58,7 @@ public final class YaBlocksEditor extends BlocksEditor<YoungAndroidBlocksNode, Y
           new BlocksCategory("Dictionaries", IMAGES.dictionaries()),
           new BlocksCategory("Colors", IMAGES.colors()),
           new BlocksCategory("Variables", IMAGES.variables()), new BlocksCategory("Procedures", IMAGES.procedures()));
+  private static final Logger LOG = Logger.getLogger(YaBlocksEditor.class.getName());
 
   // The project associated with this blocks editor.
   private Project project;
