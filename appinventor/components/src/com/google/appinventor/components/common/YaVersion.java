@@ -596,7 +596,9 @@ public class YaVersion {
   // - TRENDLINE_COMPONENT_VERSION was introduced
   // For YOUNG_ANDROID_VERSION 228:
   // - Renamed LineOfBestFit to Trendline
-  public static final int YOUNG_ANDROID_VERSION = 228;
+  // For YOUNG_ANDROID_VERSION 229:
+  // - ABSOLUTEARRANGEMENT_COMPONENT_VERSION was added
+  public static final int YOUNG_ANDROID_VERSION = 229;
 
   // ............................... Blocks Language Version Number ...............................
 
@@ -730,7 +732,9 @@ public class YaVersion {
   //   property,method or event of that component) you must also find and
   //   update the description in OdeMessages.java
 
-
+  // For ABSOLUTEARRANGEMENT_COMPONENT_VERSION 1:
+  // - AbsoluteArrangement component was added.
+  public static final int ABSOLUTEARRANGEMENT_COMPONENT_VERSION = 1;
 
   //For ACCELEROMETERSENSOR_COMPONENT_VERSION 2:
   // - AccelerometerSensor.MinimumInterval property was added.
